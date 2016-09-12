@@ -2,9 +2,8 @@
 * CMPSC 261, Section 1
 * Fall 2016
 * Instructor: Phil O'Connell
-* TODO: DON'T FORGET TO PUT YOUR NAME AND ID
-* Student: Stew Dent
-* ID: abc1234
+* Student: Nelson Rodriguez
+* ID: nir5113
 */
 package wheeloffortune;
 
