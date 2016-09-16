@@ -7,11 +7,16 @@
 */
 package wheeloffortune;
 
+import java.util.Scanner;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class WheelOfFortuneApp {
-
+    
+    String buyVowel = "You have select to buy a vowel";
+    String spinWheel = "You have selected to spin the wheel";
+    String solvePuzzle = "You have selected to solve the pizzle";
+    
   /**
    * @param args the command line arguments
    */
@@ -19,10 +24,18 @@ public class WheelOfFortuneApp {
       
       
   System.out.println("Please select from the following options:");
-  System.out.println("Spin the wheel");
-  System.out.println("Buy a vowel");
-  System.out.println("Solve the puzzle");
-  System.out.println("Quit the game");
+  System.out.println("Press 1 Spin the wheel");
+  System.out.println("Press 2 Buy a vowel");
+  System.out.println("Press 3 Solve the puzzle");
+  System.out.println("Press 4 Quit the game");
+  
+  Scanner reader = new Scanner(System.in);
+  String selection = reader.next();
+  
+  
+  
+  System.out.println("You have selected to:" + selection);
+  
   
   
     /*
@@ -31,5 +44,11 @@ public class WheelOfFortuneApp {
     GameFrame.setSize(640,480);
     GameFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);*/
   }
+  
+  public boolean validateInput(String selection){
+      return selection.matches(selection);
+  }
+  
+  
   
 }
