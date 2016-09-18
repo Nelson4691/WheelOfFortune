@@ -20,9 +20,11 @@ public class WheelOfFortuneApp {
   /**
    * @param args the command line arguments
    */
+    
+    
   public static void main(String[] args) {
-      
-      List<String> Options = new ArrayList<>();
+  
+List<String> Options = new ArrayList<>();
     String letterGuess;
     boolean letterCheck;
       
@@ -85,7 +87,7 @@ public class WheelOfFortuneApp {
           }
           System.out.println("You Entered " + letterGuess);
           break;
-  
-  } 
-}
-}
+          
+          
+    }
+  }}
