@@ -31,6 +31,8 @@ private static Random randGenerator;
 private static List<String> vocabList;
 private static String wordGuessDisplay=""; 
 private static boolean gameActive = true;
+private static boolean booleanToggleValue = true;
+private static String temporaryCurrentWordHolder;
     
   public static void main(String[] args) {
       //created two methods which add the game options which are included in an
@@ -39,14 +41,16 @@ private static boolean gameActive = true;
       addGameOptions(); //Adds the game options
       addwedgeOptions(); //Adds the different wege options
       getVocabWord();   //gets a vocab word from the vocab List
+      addSelectedGameOptions();
       /*Test Code
       //System.out.println(wedgeOptions.size()); //Checks for 
       //System.out.println(gameOptions.size());
       //System.out.println(currentWord.length());
       */
-      displayMenuTitle(); 
+      displayMenuTitle();
+      createPuzzleSpaces(); //printes out required word space
       while(gameActive){
-      displayWordSpaces(); //printes out required word space
+      displayCurrentPuzzle(); 
       displayGameOptions();
       getUserOptionSelection(); //prompts user for option selection
       checkUserSelection();
@@ -64,7 +68,7 @@ private static boolean gameActive = true;
         selectedOptions = new HashMap<>();
         selectedOptions.put("Buy a vowel","You have selected to buy a vowel:");
         selectedOptions.put("Spin the Wheel","You have selected to Spin the Wheel");
-        selectedOptions.put("solvePuzzle", "You have selected to solve the puzzle");
+        selectedOptions.put("Solve the Puzzle", "You have selected to solve the puzzle");
     }
     private static void displayMenuTitle(){
         System.out.println("                         ======================\n" +
@@ -78,6 +82,7 @@ private static boolean gameActive = true;
         gameOptions.add("2.Buy a vowel");
         gameOptions.add("3.Solve the puzzle");
         gameOptions.add("4.Quit");
+        gameOptions.add("8.Toggle reveal");
         gameOptions.add("9.Test letter input");
         gameOptions.add("Enter choice:");
     }
@@ -89,37 +94,39 @@ private static boolean gameActive = true;
     //adds and stores wedge options
     private static void addwedgeOptions(){
         wedgeOptions = new ArrayList<>();
-        wedgeOptions.add("5000");
-        wedgeOptions.add("600");
-        wedgeOptions.add("500");
-        wedgeOptions.add("300");
-        wedgeOptions.add("500");
-        wedgeOptions.add("800");
-        wedgeOptions.add("550");
-        wedgeOptions.add("400");
-        wedgeOptions.add("300");
-        wedgeOptions.add("900");
-        wedgeOptions.add("500");
-        wedgeOptions.add("300");
-        wedgeOptions.add("900");
+        wedgeOptions.add("$5000");
+        wedgeOptions.add("$600");
+        wedgeOptions.add("$500");
+        wedgeOptions.add("$300");
+        wedgeOptions.add("$500");
+        wedgeOptions.add("$800");
+        wedgeOptions.add("$550");
+        wedgeOptions.add("$400");
+        wedgeOptions.add("$300");
+        wedgeOptions.add("$900");
+        wedgeOptions.add("$500");
+        wedgeOptions.add("$300");
+        wedgeOptions.add("$900");
         wedgeOptions.add("Bankrupt");
-        wedgeOptions.add("600");
-        wedgeOptions.add("400");
+        wedgeOptions.add("$600");
+        wedgeOptions.add("$400");
         wedgeOptions.add("$300");
         wedgeOptions.add("Lose a Turn");
-        wedgeOptions.add("800");
-        wedgeOptions.add("350");
-        wedgeOptions.add("450");
-        wedgeOptions.add("700");
-        wedgeOptions.add("300");
-        wedgeOptions.add("600");
+        wedgeOptions.add("$800");
+        wedgeOptions.add("$350");
+        wedgeOptions.add("$450");
+        wedgeOptions.add("$700");
+        wedgeOptions.add("$300");
+        wedgeOptions.add("$600");
     }       
     private static void addVocabList(){
         vocabList = new ArrayList<>();
         vocabList.add("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG");
 }
     private static void getVocabWord(){
-        currentWord = vocabList.get(0);
+        randGenerator = new Random(); //what if you instantiating it everytime? Is that safe?
+        randomValue = randGenerator.nextInt(vocabList.size())+0; 
+        currentWord = vocabList.get(randomValue);
     
 }
 
@@ -132,7 +139,7 @@ private static boolean gameActive = true;
     Each time the loop runs it checks to see if there is a blank space in the
     current character it is looking at and checks to see if there is a space.
     */
-    private static void displayWordSpaces(){
+    private static void createPuzzleSpaces(){
         for (int i = 0 ; i < currentWord.length(); i++){   //Loop runs as many times as current word
             if(currentWord.charAt(i) == ' '){ //           //Checks if character at certain persition has an empty space
                 //System.out.print(" ");
@@ -142,9 +149,11 @@ private static boolean gameActive = true;
                 //System.out.print("-");
                 wordGuessDisplay = wordGuessDisplay + "_ "; //if it doesn't have a blank space then it includes an Underscore
             }
-            System.out.println("\n"+wordGuessDisplay);
-            System.out.print('\n');
-}
+    }
+    private static void displayCurrentPuzzle(){
+        System.out.println("\n"+wordGuessDisplay);
+        System.out.print('\n');
+    }
     private static void getUserOptionSelection(){
         userInput = new Scanner(System.in);
         optionSelection = Integer.parseInt(userInput.next()) ;
@@ -174,26 +183,29 @@ private static boolean gameActive = true;
                 break;
                 
             case 2:
-                System.out.print(selectedOptions.get(1));
+                System.out.print(selectedOptions.get("Buy a vowel"));
                 break;
             case 3:
-                System.out.print(selectedOptions.get(2));
+                System.out.print(selectedOptions.get("Solve the Puzzle"));
                 break;
             case 4:
-                System.out.println("Please guess a letter from A-Z");
-                letterGuess  =(userInput.next());
-      
-                while(!Character.isLetter(letterGuess.charAt(0))){
-                    System.out.println("Invalid!\n Please guess a letter from A-Z");
-                    letterGuess  =(userInput.next());
-                }
-                System.out.println("You guessed letter " + letterGuess);
-                break;
-            case 5:
                 System.exit(0);
                 gameActive = false;
                 break;
-            case 6:
+            case 8:
+                if(booleanToggleValue){
+                   temporaryCurrentWordHolder = wordGuessDisplay;  // putes your guesses in temporary holder 
+                   wordGuessDisplay = currentWord;                 // makes orginally guess holder display full word
+                   booleanToggleValue = false;
+               }
+                else if(!booleanToggleValue){
+                    wordGuessDisplay = temporaryCurrentWordHolder;
+                    booleanToggleValue = true;
+                
+                }
+            break;
+            
+            case 9:
                 System.out.println("Please guess a letter from A-Z");
                 letterGuess  =(userInput.next());
       
