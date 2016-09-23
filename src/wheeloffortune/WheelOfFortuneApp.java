@@ -8,86 +8,182 @@
 package wheeloffortune;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 
 
 
 
 public class WheelOfFortuneApp {
-    
-    
-  /**
-   * @param args the command line arguments
-   */
-    
+private static Map<String,String> selectedOptions; //Arraylist for selected options
+private static List<String> wedgeOptions;          //Arraylist for  different wedge choices 
+private static List<String> gameOptions;
+private static Scanner  userInput;
+private static String letterGuess;
+private static String currentWord;
+private static boolean letterCheck;
+private static int randomValue;
+private static Random randGenerator;
+private static List<String> vocabList;
+
     
   public static void main(String[] args) {
-  
-List<String> Options = new ArrayList<>();
-    String letterGuess;
-    boolean letterCheck;
       
       
-    String buyVowel = "You have select to buy a vowel";
-    String spinWheel = "You have selected to Spin the wheel";
-    String solvePuzzle = "You have selected to Solve the pizzle";
-    
-    Options.add(buyVowel);
-    Options.add(spinWheel);
-    Options.add(solvePuzzle);
-    
-  System.out.println("Please select from the following options:");
-  System.out.println("Press 1 to Buy a vowel");
-  System.out.println("Press 2 to Spin the wheel");
-  System.out.println("Press 3 to Solve the puzzle");
-  System.out.println("Press 4 to Guess Letter");
-  System.out.println("Press 5 to Quit the game");
-  System.out.println("Press 6 to Test letter input");
- 
-  
-  
-  Scanner userInput = new Scanner(System.in);
-  int selection = Integer.parseInt(userInput.next()) ;
-  
-  
-  
-  switch (selection){
+      gameOptions = new ArrayList<>();
+      //created two methods which add the game options which are included in an
+      // arraylist
+      addVocabList();
+      addGameOptions();
+      addwedgeOptions();
+      
+      System.out.println(wedgeOptions.size());
+      System.out.println(gameOptions.size());
+      getVocabWord();
+      System.out.println(currentWord.length());
+      displayMenuTitle();
+      displayWordSpaces();
+      displayGameOptions();
+      userInput = new Scanner(System.in);
+      int selection = Integer.parseInt(userInput.next()) ;
+      
+      switch (selection){
       case 1:
-          System.out.print(Options.get(0));
-          break;
+      System.out.print("You Landed on: "+wedgeOptions.get(randomValue).toString()+"\n");
+      break;
       case 2:
-          System.out.print(Options.get(1));
-          break;
+      System.out.print(selectedOptions.get(1));
+      break;
       case 3:
-          System.out.print(Options.get(2));
-          break;
+      System.out.print(selectedOptions.get(2));
+      break;
       case 4:
-          System.out.println("Please guess a letter from A-Z");
-          letterGuess  =(userInput.next());
-          
-          while(!Character.isLetter(letterGuess.charAt(0))){     
-              System.out.println("Invalid!\n Please guess a letter from A-Z");
-              letterGuess  =(userInput.next());
-              
-          }
-          System.out.println("You guessed letter " + letterGuess);
-          break;
+      System.out.println("Please guess a letter from A-Z");
+      letterGuess  =(userInput.next());
+      
+      while(!Character.isLetter(letterGuess.charAt(0))){
+      System.out.println("Invalid!\n Please guess a letter from A-Z");
+      letterGuess  =(userInput.next());
+      
+      }
+      System.out.println("You guessed letter " + letterGuess);
+      break;
       case 5:
-          System.exit(0);
-          break;
+      System.exit(0);
+      break;
       case 6:
-          System.out.println("Please guess a letter from A-Z");
-          letterGuess  =(userInput.next());
-          
-          while(!Character.isLetter(letterGuess.charAt(0))){     
-              System.out.println("Invalid!\n Please guess a letter from A-Z");
-              letterGuess  =(userInput.next());
-              
-          }
-          System.out.println("You Entered " + letterGuess);
-          break;
-          
-          
+      System.out.println("Please guess a letter from A-Z");
+      letterGuess  =(userInput.next());
+      
+      while(!Character.isLetter(letterGuess.charAt(0))){
+      System.out.println("Invalid!\n Please guess a letter from A-Z");
+      letterGuess  =(userInput.next());
+      
+      }
+      System.out.println("You Entered " + letterGuess);
+      break;
+      
+      
+      }
+  
+    
+  
+  
+    
+    
+  }
+  private static int getWedge(){
+      randGenerator = new Random(); //what if you instantiating it everytime? Is that safe?
+      randomValue = randGenerator.nextInt(wedgeOptions.size()-1)+0;
+      return randomValue;
+  }
+  
+  private static  void addSelectedGameOptions(){
+     selectedOptions = new HashMap<>();
+     selectedOptions.put("Buy a vowel","You have selected to buy a vowel:");
+     selectedOptions.put("Spin the Wheel","You have selected to Spin the Wheel");
+     selectedOptions.put("solvePuzzle", "You have selected to solve the puzzle");
     }
-  }}
+  private static void displayMenuTitle(){
+      System.out.println("                         ======================\n" +
+"                         =  Wheel Of Fortune  = \n" +
+"                         ======================");
+      
+  }  
+  private static void addGameOptions(){
+     
+     gameOptions.add("1.Spin the wheel");
+     gameOptions.add("2.Buy a vowel");
+     gameOptions.add("3.Solve the puzzle");
+     gameOptions.add("4.Quit");
+     gameOptions.add("9.Test letter input");
+     gameOptions.add("Enter choice:");
+    }
+  private static void displayGameOptions(){
+      for(int i = 0; i < gameOptions.size(); i++){
+      System.out.println(gameOptions.get(i));
+      }
+  }
+  private static void addwedgeOptions(){
+      wedgeOptions = new ArrayList<>();
+      wedgeOptions.add("5000");
+      wedgeOptions.add("600");
+      wedgeOptions.add("500");
+      wedgeOptions.add("300");
+      wedgeOptions.add("500");
+      wedgeOptions.add("800");
+      wedgeOptions.add("550");
+      wedgeOptions.add("400");
+      wedgeOptions.add("300");
+      wedgeOptions.add("900");
+      wedgeOptions.add("500");
+      wedgeOptions.add("300");
+      wedgeOptions.add("900");
+      wedgeOptions.add("Bankrupt");
+      wedgeOptions.add("600");
+      wedgeOptions.add("400");
+      wedgeOptions.add("$300");
+      wedgeOptions.add("Lose a Turn");
+      wedgeOptions.add("800");
+      wedgeOptions.add("350");
+      wedgeOptions.add("450");
+      wedgeOptions.add("700");
+      wedgeOptions.add("300");
+      wedgeOptions.add("600");
+}       
+private static void addVocabList(){
+    vocabList = new ArrayList<>();
+    vocabList.add("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG");
+}
+private static void getVocabWord(){
+    currentWord = vocabList.get(0);
+    
+}
+
+/*The code runs a for loop which runs as many times as the codes legnth and for 
+  each iteration checks if there is a blank space. If there is a blank space(" ") 
+  then a " " (blank space) is added.*/
+
+private static void displayWordSpaces(){
+    for (int i = 0 ; i < currentWord.length(); i++){
+        // char currentChar =currentWord.charAt(i); // makes the current character being checked in current word equal to current char
+        if(currentWord.charAt(i) == ' '){ // IF current char equal
+            System.out.print(" ");
+        
+        }
+        else
+            System.out.print("-");
+    }
+    System.out.print('\n');
+}
+
+private static void checkWordGuess(){
+
+
+}
+      
+    
+}
