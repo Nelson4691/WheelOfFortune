@@ -30,6 +30,7 @@ private static int randomValue;
 private static Random randGenerator;
 private static List<String> vocabList;
 private static String wordGuessDisplay=""; 
+private static boolean gameActive = true;
     
   public static void main(String[] args) {
       //created two methods which add the game options which are included in an
@@ -44,56 +45,13 @@ private static String wordGuessDisplay="";
       //System.out.println(currentWord.length());
       */
       displayMenuTitle(); 
+      while(gameActive){
       displayWordSpaces(); //printes out required word space
       displayGameOptions();
       getUserOptionSelection(); //prompts user for option selection
-
-      
-      switch (optionSelection){
-      case 1:
-      System.out.print("You Landed on: "+wedgeOptions.get(getWedge())+"\n");
-      System.out.print("Enter a letter to guess: ");
-      letterGuess  =(userInput.next());
-        while(!Character.isLetter(letterGuess.charAt(0))){
-            System.out.println("Invalid!\n Please guess a letter from A-Z");
-            letterGuess  =(userInput.next());
-        }
-      checkWordGuess();
-      //include method for checking and comparing here
-      break;
-      case 2:
-      System.out.print(selectedOptions.get(1));
-      break;
-      case 3:
-      System.out.print(selectedOptions.get(2));
-      break;
-      case 4:
-      System.out.println("Please guess a letter from A-Z");
-      letterGuess  =(userInput.next());
-      
-      while(!Character.isLetter(letterGuess.charAt(0))){
-      System.out.println("Invalid!\n Please guess a letter from A-Z");
-      letterGuess  =(userInput.next());
+      checkUserSelection();
       }
-      System.out.println("You guessed letter " + letterGuess);
-      break;
-      case 5:
-      System.exit(0);
-      break;
-      case 6:
-      System.out.println("Please guess a letter from A-Z");
-      letterGuess  =(userInput.next());
-      
-      while(!Character.isLetter(letterGuess.charAt(0))){
-      System.out.println("Invalid!\n Please guess a letter from A-Z");
-      letterGuess  =(userInput.next());
-      
-      }
-      System.out.println("You Entered " + letterGuess);
-      break;
-      
-      
-      }  
+     
   }
     //Provides user with a randomly selected wedge
     private static int getWedge(){
@@ -184,7 +142,7 @@ private static String wordGuessDisplay="";
                 //System.out.print("-");
                 wordGuessDisplay = wordGuessDisplay + "_ "; //if it doesn't have a blank space then it includes an Underscore
             }
-            System.out.println(wordGuessDisplay);
+            System.out.println("\n"+wordGuessDisplay);
             System.out.print('\n');
 }
     private static void getUserOptionSelection(){
@@ -197,26 +155,59 @@ private static String wordGuessDisplay="";
                 StringBuilder myName = new StringBuilder(wordGuessDisplay);  //if matches bulder is instaniated out of currentworddisplay Ex.(__ _ _)
                 myName.setCharAt(i,letterGuess.charAt(0) );                  //since the characters in myname are mutuable ill change it using setchar(string posiition, character)
                 wordGuessDisplay = myName.toString();                        // wordGuessDisplay will then be updated = myName
-                                                  
-               // wordGuessDisplay.charAt = letterGuess.charAt(0);
-                //System.out.print("There is a match"+ letterGuess.charAt(0));
               }
+       
         }
-        System.out.println(wordGuessDisplay);
-//        if(letterGuess.contains(currentWord)){
-//            //update letter guess display where letterguess contains currentword
-//            
-//          int characterUpdatePosition;
-//          characterUpdatePosition = letterGuess.indexOf(currentWord);
-//          System.out.println(characterUpdatePosition);
-//            //int characterUpdatePosition =
-//        }
-//        else 
-//            System.out.println("False no match");
-//        int characterUpdatePosition;
-//          characterUpdatePosition = letterGuess.indexOf(currentWord);
-//          System.out.println(characterUpdatePosition);
         
+    }
+    private static void checkUserSelection(){
+        switch (optionSelection){
+            case 1:
+                System.out.print("You Landed on: "+wedgeOptions.get(getWedge())+"\n");
+                System.out.print("Enter a letter to guess: ");
+                letterGuess  =(userInput.next());
+                while(!Character.isLetter(letterGuess.charAt(0))){
+                    System.out.println("Invalid!\n Please guess a letter from A-Z");
+                    letterGuess  =(userInput.next());
+                }
+                checkWordGuess();       //Checks word guess if guess is correct it updates the display
+                break;
+                
+            case 2:
+                System.out.print(selectedOptions.get(1));
+                break;
+            case 3:
+                System.out.print(selectedOptions.get(2));
+                break;
+            case 4:
+                System.out.println("Please guess a letter from A-Z");
+                letterGuess  =(userInput.next());
+      
+                while(!Character.isLetter(letterGuess.charAt(0))){
+                    System.out.println("Invalid!\n Please guess a letter from A-Z");
+                    letterGuess  =(userInput.next());
+                }
+                System.out.println("You guessed letter " + letterGuess);
+                break;
+            case 5:
+                System.exit(0);
+                gameActive = false;
+                break;
+            case 6:
+                System.out.println("Please guess a letter from A-Z");
+                letterGuess  =(userInput.next());
+      
+                while(!Character.isLetter(letterGuess.charAt(0))){
+                    System.out.println("Invalid!\n Please guess a letter from A-Z");
+                    letterGuess  =(userInput.next());
+                }
+                System.out.println("You Entered " + letterGuess);
+                break;
+      
+      
+      }
+    
+    
     }
 }
 
