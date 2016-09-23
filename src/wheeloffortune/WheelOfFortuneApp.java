@@ -56,8 +56,9 @@ private static String wordGuessDisplay="";
       
       switch (selection){
       case 1:
-      System.out.print("You Landed on: "+wedgeOptions.get(randomValue).toString()+"\n");
+      System.out.print("You Landed on: "+wedgeOptions.get(getWedge())+"\n");
       System.out.print("Enter a letter to guess: ");
+      letterGuess  =(userInput.next());
         while(!Character.isLetter(letterGuess.charAt(0))){
             System.out.println("Invalid!\n Please guess a letter from A-Z");
             letterGuess  =(userInput.next());
@@ -101,6 +102,7 @@ private static String wordGuessDisplay="";
     private static int getWedge(){
       randGenerator = new Random(); //what if you instantiating it everytime? Is that safe?
       randomValue = randGenerator.nextInt(wedgeOptions.size()-1)+0;
+      System.out.print("Random value:" +randomValue);
       return randomValue;
     }
   
@@ -179,7 +181,7 @@ private static String wordGuessDisplay="";
         }
             else
                 //System.out.print("-");
-                wordGuessDisplay = wordGuessDisplay + "-";
+                wordGuessDisplay = wordGuessDisplay + "_";
             }
             System.out.println(wordGuessDisplay);
             System.out.print('\n');
