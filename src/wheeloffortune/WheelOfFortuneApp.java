@@ -21,9 +21,10 @@ public class WheelOfFortuneApp {
 private static Map<String,String> selectedOptions; //Arraylist for selected options
 private static List<String> wedgeOptions;          //Arraylist for  different wedge choices 
 private static List<String> gameOptions;           //ArrayList for providing game option
-private static Scanner  userInput;                 //
-private static String letterGuess;
-private static String currentWord;
+private static Scanner  userInput;                 //Scanner for user input
+private static String letterGuess;                 //Used to store users guess
+private static String currentWord;                 //Stores the current word user is guessing
+private static int optionSelection;
 private static boolean letterCheck;
 private static int randomValue;
 private static Random randGenerator;
@@ -31,30 +32,24 @@ private static List<String> vocabList;
 private static String wordGuessDisplay=""; 
     
   public static void main(String[] args) {
-      
-      
-      gameOptions = new ArrayList<>();
       //created two methods which add the game options which are included in an
       // arraylist
-      addVocabList();
-      addGameOptions();
-      addwedgeOptions();
-      
-      //Test Code
-      System.out.println(wedgeOptions.size());
-      System.out.println(gameOptions.size());
-      getVocabWord();
-      System.out.println(currentWord.length());
-      
-      displayMenuTitle();
-      displayWordSpaces();
+      addVocabList();   //Adds vocab List
+      addGameOptions(); //Adds the game options
+      addwedgeOptions(); //Adds the different wege options
+      getVocabWord();   //gets a vocab word from the vocab List
+      /*Test Code
+      //System.out.println(wedgeOptions.size()); //Checks for 
+      //System.out.println(gameOptions.size());
+      //System.out.println(currentWord.length());
+      */
+      displayMenuTitle(); 
+      displayWordSpaces(); //printes out required word space
       displayGameOptions();
+      getUserOptionSelection(); //prompts user for option selection
+
       
-      //Ask for option selection
-      userInput = new Scanner(System.in);
-      int selection = Integer.parseInt(userInput.next()) ;
-      
-      switch (selection){
+      switch (optionSelection){
       case 1:
       System.out.print("You Landed on: "+wedgeOptions.get(getWedge())+"\n");
       System.out.print("Enter a letter to guess: ");
@@ -62,7 +57,8 @@ private static String wordGuessDisplay="";
         while(!Character.isLetter(letterGuess.charAt(0))){
             System.out.println("Invalid!\n Please guess a letter from A-Z");
             letterGuess  =(userInput.next());
-      }
+        }
+      checkWordGuess();
       //include method for checking and comparing here
       break;
       case 2:
@@ -99,13 +95,13 @@ private static String wordGuessDisplay="";
       
       }  
   }
+    //Provides user with a randomly selected wedge
     private static int getWedge(){
       randGenerator = new Random(); //what if you instantiating it everytime? Is that safe?
       randomValue = randGenerator.nextInt(wedgeOptions.size()-1)+0;
-      System.out.print("Random value:" +randomValue);
       return randomValue;
     }
-  
+    //Adds selected options to hashmap
     private static  void addSelectedGameOptions(){
         selectedOptions = new HashMap<>();
         selectedOptions.put("Buy a vowel","You have selected to buy a vowel:");
@@ -119,6 +115,7 @@ private static String wordGuessDisplay="";
       
   }  
     private static void addGameOptions(){
+        gameOptions = new ArrayList<>();
         gameOptions.add("1.Spin the wheel");
         gameOptions.add("2.Buy a vowel");
         gameOptions.add("3.Solve the puzzle");
@@ -131,7 +128,7 @@ private static String wordGuessDisplay="";
         System.out.println(gameOptions.get(i));
       }
     }
-  
+    //adds and stores wedge options
     private static void addwedgeOptions(){
         wedgeOptions = new ArrayList<>();
         wedgeOptions.add("5000");
@@ -172,24 +169,53 @@ private static String wordGuessDisplay="";
   each iteration checks if there is a blank space. If there is a blank space(" ") 
   then a " " (blank space) is added.*/
 
+    /*Generates Spaces for the word that is being guessed
+    The codes runs a for loop that repeats as the current words character legth.
+    Each time the loop runs it checks to see if there is a blank space in the
+    current character it is looking at and checks to see if there is a space.
+    */
     private static void displayWordSpaces(){
-        for (int i = 0 ; i < currentWord.length(); i++){
-            // char currentChar =currentWord.charAt(i); // makes the current character being checked in current word equal to current char
-            if(currentWord.charAt(i) == ' '){ // IF current char equal
+        for (int i = 0 ; i < currentWord.length(); i++){   //Loop runs as many times as current word
+            if(currentWord.charAt(i) == ' '){ //           //Checks if character at certain persition has an empty space
                 //System.out.print(" ");
-                wordGuessDisplay = wordGuessDisplay + " ";
+                wordGuessDisplay = wordGuessDisplay + "  "; //Updates the hint to includes a blank space
         }
             else
                 //System.out.print("-");
-                wordGuessDisplay = wordGuessDisplay + "_";
+                wordGuessDisplay = wordGuessDisplay + "_ "; //if it doesn't have a blank space then it includes an Underscore
             }
             System.out.println(wordGuessDisplay);
             System.out.print('\n');
 }
+    private static void getUserOptionSelection(){
+        userInput = new Scanner(System.in);
+        optionSelection = Integer.parseInt(userInput.next()) ;
+    }
     private static void checkWordGuess(){
-        if(letterGuess.contains(currentWord)){
-            
+        for (int i = 0 ; i < currentWord.length(); i++){                     //Loop runs as many times as current word
+            if(currentWord.charAt(i) ==  letterGuess.charAt(0)){             // checks if the current word matches the letter guessed
+                StringBuilder myName = new StringBuilder(wordGuessDisplay);  //if matches bulder is instaniated out of currentworddisplay Ex.(__ _ _)
+                myName.setCharAt(i,letterGuess.charAt(0) );                  //since the characters in myname are mutuable ill change it using setchar(string posiition, character)
+                wordGuessDisplay = myName.toString();                        // wordGuessDisplay will then be updated = myName
+                                                  
+               // wordGuessDisplay.charAt = letterGuess.charAt(0);
+                //System.out.print("There is a match"+ letterGuess.charAt(0));
+              }
         }
+        System.out.println(wordGuessDisplay);
+//        if(letterGuess.contains(currentWord)){
+//            //update letter guess display where letterguess contains currentword
+//            
+//          int characterUpdatePosition;
+//          characterUpdatePosition = letterGuess.indexOf(currentWord);
+//          System.out.println(characterUpdatePosition);
+//            //int characterUpdatePosition =
+//        }
+//        else 
+//            System.out.println("False no match");
+//        int characterUpdatePosition;
+//          characterUpdatePosition = letterGuess.indexOf(currentWord);
+//          System.out.println(characterUpdatePosition);
         
     }
 }
