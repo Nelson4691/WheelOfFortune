@@ -143,11 +143,11 @@ private static String temporaryCurrentWordHolder;
         for (int i = 0 ; i < currentWord.length(); i++){   //Loop runs as many times as current word
             if(currentWord.charAt(i) == ' '){ //           //Checks if character at certain persition has an empty space
                 //System.out.print(" ");
-                wordGuessDisplay = wordGuessDisplay + "  "; //Updates the hint to includes a blank space
+                wordGuessDisplay = wordGuessDisplay + " "; //Updates the hint to includes a blank space
         }
             else
                 //System.out.print("-");
-                wordGuessDisplay = wordGuessDisplay + "_ "; //if it doesn't have a blank space then it includes an Underscore
+                wordGuessDisplay = wordGuessDisplay + "-"; //if it doesn't have a blank space then it includes an Underscore
             }
     }
     private static void displayCurrentPuzzle(){
