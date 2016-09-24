@@ -121,7 +121,7 @@ private static String temporaryCurrentWordHolder;
     }       
     private static void addVocabList(){
         vocabList = new ArrayList<>();
-        vocabList.add("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG");
+        vocabList.add("T H E  Q U I C K  B R O W N  F O X  J U M P S  O V E R  T H E  L A Z Y  D O G");
 }
     private static void getVocabWord(){
         randGenerator = new Random(); //what if you instantiating it everytime? Is that safe?
@@ -147,7 +147,7 @@ private static String temporaryCurrentWordHolder;
         }
             else
                 //System.out.print("-");
-                wordGuessDisplay = wordGuessDisplay + "-"; //if it doesn't have a blank space then it includes an Underscore
+                wordGuessDisplay = wordGuessDisplay + "_"; //if it doesn't have a blank space then it includes an Underscore
             }
     }
     private static void displayCurrentPuzzle(){
