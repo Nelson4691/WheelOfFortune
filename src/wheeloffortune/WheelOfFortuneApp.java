@@ -35,9 +35,10 @@ private static String temporaryCurrentWordHolder;  //Used to temporary hold word
 private static String currentWedge;                //Will be used to include the wedges 
 private static int currentPlayerScore = 0;         //Used to keep track of player score
 private static List <String> letterGuessedList = new ArrayList<>();     //Keeps track of all the letter guessed
-private final static List <String> vowelList = new ArrayList();
+private final static List <String> vowelList = new ArrayList<>();
 private static String test = "A";
 private static boolean vowelAcceptance = false;                   // used to check if vowel is acceptable (starts at false to assure user can guess vowel
+private static List<String> PlayerWordGuess;
 
   public static void main(String[] args) {
       //created two methods which add the game options which are included in an
@@ -296,6 +297,24 @@ private static boolean vowelAcceptance = false;                   // used to che
              vowelAcceptance = false;
         }
     }
+    private static void guessWord(){
+        PlayerWordGuess = new ArrayList<>(currentWord.length());    //Why can variable be fully instantiated here
+       int playerCorrectWordGuessCount = 0;
+        for(int i =0; i < currentWord.length(); i++){
+             System.out.println("Please enter letter");
+             PlayerWordGuess.add(userInput.next().toUpperCase());
+             
+        }
+        for(int i = 0; i < currentWord.length(); i++){
+            if(PlayerWordGuess.get(i).charAt(0) == currentWord.charAt(i)){
+                playerCorrectWordGuessCount = playerCorrectWordGuessCount +1;
+            }
+        }
+        if(playerCorrectWordGuessCount == currentWord.length()){
+           System.out.print("You have won the game congrats");
+           System.out.print("Your Scored :" +currentPlayerScore);
+        }
+    }
     
     private static void checkUserSelection(){
         switch (optionSelection){
@@ -311,14 +330,13 @@ private static boolean vowelAcceptance = false;                   // used to che
                 break;
                 
             case 2:
-                System.out.print(selectedOptions.get("Buy a vowel"));
                 purchaseVowel();
                 checkForLetterReEntry();
                 checkLetterGuess();
                 updateLetterGuessList(letterGuess);
                 break;
             case 3:
-                System.out.print(selectedOptions.get("Solve the Puzzle"));
+                guessWord();
                 break;
             case 4:
                 System.exit(0);
