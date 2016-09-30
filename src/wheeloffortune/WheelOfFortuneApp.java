@@ -33,9 +33,11 @@ private static boolean gameActive = true;          //used to check if game is ac
 private static boolean booleanToggleValue = true;  //Used to check guess value 
 private static String temporaryCurrentWordHolder;  //Used to temporary hold word 
 private static String currentWedge;                //Will be used to include the wedges 
-private static int currentPlayerScore = 0;                    //Used to keep track of player score
+private static int currentPlayerScore = 0;         //Used to keep track of player score
+private static List <String> letterGuessedList = new ArrayList<>();     //Keeps track of all the letter guessed
+private static List <String> vowelList = new ArrayList();
+private static String test = "A";
 
-    
   public static void main(String[] args) {
       //created two methods which add the game options which are included in an
       // arraylist
@@ -44,6 +46,8 @@ private static int currentPlayerScore = 0;                    //Used to keep tra
       addwedgeOptions(); //Adds the different wege options
       getVocabWord();   //gets a vocab word from the vocab List
       addSelectedGameOptions();
+      addVowels();
+      System.out.println(checkForVowels(test));
       /*Test Code
       //System.out.println(wedgeOptions.size()); //Checks for 
       //System.out.println(gameOptions.size());
@@ -73,19 +77,26 @@ private static int currentPlayerScore = 0;                    //Used to keep tra
     /*Used to test if value is not numberic*/
     public static boolean numericValidator(String str)  
     {  
-        try  
-    {  
-        int value = Integer.parseInt(str);  
-    }  
-        catch(NumberFormatException error)  
-    {  
-        return false;  
-    }  
+        try{
+            int value = Integer.parseInt(str);  
+        }  
+        catch(NumberFormatException error){
+            return false;
+        }  
         return true;  
     }
     private static void displayPlayerScore(){
         System.out.println("Your current Score: " + currentPlayerScore + "\n");
-
+    }
+    private static void updateLetterGuessList(String letterGuess){
+       
+        letterGuessedList.add(letterGuess);
+        //Used to test if letters are updating
+        /*letterGuessedList.stream().forEach((GuessedLetters) ->
+        {
+            System.out.println(GuessedLetters);
+        });
+        */
     }
     
     //Adds selected options to hashmap
@@ -94,6 +105,13 @@ private static int currentPlayerScore = 0;                    //Used to keep tra
         selectedOptions.put("Buy a vowel","You have selected to buy a vowel:");
         selectedOptions.put("Spin the Wheel","You have selected to Spin the Wheel");
         selectedOptions.put("Solve the Puzzle", "You have selected to solve the puzzle");
+    }
+    private static void addVowels(){
+        vowelList.add("A");
+        vowelList.add("E");
+        vowelList.add("I");
+        vowelList.add("O");
+        vowelList.add("U");
     }
     private static void displayMenuTitle(){
         System.out.println("                         ======================\n" +
@@ -213,27 +231,63 @@ private static int currentPlayerScore = 0;                    //Used to keep tra
     private static void checkWordGuess(){
         for (int i = 0 ; i < currentWord.length(); i++){                     //Loop runs as many times as current word
             if(currentWord.charAt(i) ==  letterGuess.charAt(0)){             // checks if the current word matches the letter guessed
+                updatePlayerScore();
                 StringBuilder myName = new StringBuilder(currentpuzzleDisplayed);  //if matches bulder is instaniated out of currentworddisplay Ex.(__ _ _)
                 myName.setCharAt(i,letterGuess.charAt(0) );                  //since the characters in myname are mutuable ill change it using setchar(string posiition, character)
                 currentpuzzleDisplayed = myName.toString();                        // currentpuzzleDisplayed will then be updated = myName
               }
-       
-        }
-        
+            
+        }    
     }
+    private static void checkForLetterReEntry(){
+        //Loop checks to see if user has already entered the same letter
+        for(int i = 0 ; i<letterGuessedList.size(); i++){
+                if( letterGuessedList.get(i).charAt(0) == letterGuess.charAt(0)){
+                    askUserForLetterGuess();
+                }
+            }
+    }
+    private static void askUserForLetterGuess(){
+        System.out.print("Enter a letter to guess: ");
+        letterGuess  =(userInput.next().toUpperCase());
+        while(!Character.isLetter(letterGuess.charAt(0))){
+            System.out.println("Invalid!\n Please guess a letter from A-Z");
+            letterGuess  =(userInput.next().toUpperCase());
+        }
+        /*while(checkForVowels(letterGuess) == true){
+            System.out.println("Please enter a letter not a vowel!");
+            letterGuess  =(userInput.next().toUpperCase());
+        }
+        */
+        
+        checkForLetterReEntry();
+    }
+    private static void displayCurrentWedgeLand(){
+        System.out.print("You Landed on: "+currentWedge+"\n");
+    }
+    private static void updateWedgeLanding(){
+    
+    }
+    
+    //should it be bool or void?
+    private static boolean checkForVowels(String letter){
+        for(int i = 0; i > vowelList.size();i++){
+            if (letter.charAt(0) == vowelList.get(i).charAt(0)){
+            return true;
+            }
+        }
+        return false;
+    }    
     private static void checkUserSelection(){
         switch (optionSelection){
             case 1:
                 currentWedge = wedgeOptions.get(getWedge());
-                updatePlayerScore();
-                System.out.print("You Landed on: "+currentWedge+"\n");
-                System.out.print("Enter a letter to guess: ");
-                letterGuess  =(userInput.next().toUpperCase());
-                while(!Character.isLetter(letterGuess.charAt(0))){
-                    System.out.println("Invalid!\n Please guess a letter from A-Z");
-                    letterGuess  =(userInput.next().toUpperCase());
-                }
-                checkWordGuess();       //Checks word guess if guess is correct it updates the display
+                displayCurrentWedgeLand();
+                askUserForLetterGuess();
+                checkForLetterReEntry();
+                checkWordGuess();                                                    //Checks word guess if guess is correct it updates the display
+                updateLetterGuessList(letterGuess);                                  //updates the guess list
+                
                 break;
                 
             case 2:
