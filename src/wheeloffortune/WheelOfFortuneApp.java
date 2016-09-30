@@ -70,7 +70,7 @@ private static String test = "A";
       randomValue = randGenerator.nextInt(wedgeOptions.size()-1)+0;
       return randomValue;
     }
-    private static void updatePlayerScore(){
+    private static void addPlayerScore(){
     if(numericValidator(currentWedge) == true)
         currentPlayerScore = currentPlayerScore + Integer.parseInt(currentWedge);    
     }
@@ -210,28 +210,11 @@ private static String test = "A";
          
         }
         optionSelection = Integer.parseInt(optionValidator) ;
-        
-        /*boolean Validator = true;
-        
-       while(Validator){
-           
-           try{
-           userInput = new Scanner(System.in);
-           optionSelection = Integer.parseInt(userInput.next());
-           }
-           catch(NumberFormatException error){
-               System.out.println("Error, not a valid selection. Please try again.");
-               if (optionSelection >0){ Validator = false;}
-           }
-       }
-        //optionSelection = Integer.parseInt(userInput.next()) ;
-        
-      */    
     }
     private static void checkWordGuess(){
         for (int i = 0 ; i < currentWord.length(); i++){                     //Loop runs as many times as current word
             if(currentWord.charAt(i) ==  letterGuess.charAt(0)){             // checks if the current word matches the letter guessed
-                updatePlayerScore();
+                addPlayerScore();
                 StringBuilder myName = new StringBuilder(currentpuzzleDisplayed);  //if matches bulder is instaniated out of currentworddisplay Ex.(__ _ _)
                 myName.setCharAt(i,letterGuess.charAt(0) );                  //since the characters in myname are mutuable ill change it using setchar(string posiition, character)
                 currentpuzzleDisplayed = myName.toString();                        // currentpuzzleDisplayed will then be updated = myName
@@ -254,11 +237,11 @@ private static String test = "A";
             System.out.println("Invalid!\n Please guess a letter from A-Z");
             letterGuess  =(userInput.next().toUpperCase());
         }
-        /*while(checkForVowels(letterGuess) == true){
+        while(checkForVowels(letterGuess) == true){
             System.out.println("Please enter a letter not a vowel!");
             letterGuess  =(userInput.next().toUpperCase());
         }
-        */
+        
         
         checkForLetterReEntry();
     }
@@ -271,13 +254,17 @@ private static String test = "A";
     
     //should it be bool or void?
     private static boolean checkForVowels(String letter){
-        for(int i = 0; i > vowelList.size();i++){
+        for(int i = 0; i < vowelList.size();i++){
             if (letter.charAt(0) == vowelList.get(i).charAt(0)){
             return true;
             }
         }
-        return false;
-    }    
+            return false;
+    }
+    //
+    private static void purchaseVowel(){
+    }
+    
     private static void checkUserSelection(){
         switch (optionSelection){
             case 1:
