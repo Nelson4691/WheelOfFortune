@@ -35,8 +35,9 @@ private static String temporaryCurrentWordHolder;  //Used to temporary hold word
 private static String currentWedge;                //Will be used to include the wedges 
 private static int currentPlayerScore = 0;         //Used to keep track of player score
 private static List <String> letterGuessedList = new ArrayList<>();     //Keeps track of all the letter guessed
-private static List <String> vowelList = new ArrayList();
+private final static List <String> vowelList = new ArrayList();
 private static String test = "A";
+private static boolean vowelAcceptance = false;                   // used to check if vowel is acceptable (starts at false to assure user can guess vowel
 
   public static void main(String[] args) {
       //created two methods which add the game options which are included in an
@@ -97,6 +98,7 @@ private static String test = "A";
             System.out.println(GuessedLetters);
         });
         */
+   
     }
     
     //Adds selected options to hashmap
@@ -211,7 +213,7 @@ private static String test = "A";
         }
         optionSelection = Integer.parseInt(optionValidator) ;
     }
-    private static void checkWordGuess(){
+    private static void checkLetterGuess(){
         for (int i = 0 ; i < currentWord.length(); i++){                     //Loop runs as many times as current word
             if(currentWord.charAt(i) ==  letterGuess.charAt(0)){             // checks if the current word matches the letter guessed
                 addPlayerScore();
@@ -237,21 +239,34 @@ private static String test = "A";
             System.out.println("Invalid!\n Please guess a letter from A-Z");
             letterGuess  =(userInput.next().toUpperCase());
         }
-        while(checkForVowels(letterGuess) == true){
+        while(checkForVowels(letterGuess) == true){                    //add a method that checks returns true if you can guess a vowel and false if you cant
             System.out.println("Please enter a letter not a vowel!");
             letterGuess  =(userInput.next().toUpperCase());
         }
-        
-        
+        checkForLetterReEntry();
+    }
+    private static void askUserForVowelGuess(){
+         System.out.print("Enter a vowel to guess: ");
+        letterGuess  =(userInput.next().toUpperCase());
+        while(checkForVowels(letterGuess) == false){
+            System.out.println("Invalid!\n Please enter a vowel ex. A,E,I,O,U");
+            letterGuess  =(userInput.next().toUpperCase());
+        }
         checkForLetterReEntry();
     }
     private static void displayCurrentWedgeLand(){
         System.out.print("You Landed on: "+currentWedge+"\n");
     }
-    private static void updateWedgeLanding(){
-    
+    private static void checkForBankrupcy(){
+        //currentWedge = "Bankrupt";                    //Tester for banrupty
+        if(currentWedge == "Bankrupt"){
+            currentPlayerScore = 0;
+            // System.out.println("You are bankrupt");  //used to test for bankruptcy
+        }
     }
-    
+    private static void updateWedgeLanding(){
+        currentWedge = wedgeOptions.get(getWedge());
+    }
     //should it be bool or void?
     private static boolean checkForVowels(String letter){
         for(int i = 0; i < vowelList.size();i++){
@@ -261,24 +276,46 @@ private static String test = "A";
         }
             return false;
     }
-    //
+    
+    //will check if user score is less then cost for vowel 
+    // return bool
+    private static boolean validateVowelPurchase(){
+        if (currentPlayerScore < 250){                                  //test to see if vowel cna be puchase
+           return false;
+        }
+        return true;
+    }
     private static void purchaseVowel(){
+        if(validateVowelPurchase() == true){
+            currentPlayerScore = currentPlayerScore -250;               //update playerScore if puchase is accepted
+            askUserForVowelGuess();
+            
+        }
+        else{
+            System.out.print(" You do not have sufficient Funds to purchase a vowel!");
+             vowelAcceptance = false;
+        }
     }
     
     private static void checkUserSelection(){
         switch (optionSelection){
             case 1:
-                currentWedge = wedgeOptions.get(getWedge());
+                updateWedgeLanding();
                 displayCurrentWedgeLand();
+                checkForBankrupcy();
                 askUserForLetterGuess();
                 checkForLetterReEntry();
-                checkWordGuess();                                                    //Checks word guess if guess is correct it updates the display
+                checkLetterGuess();                                                    //Checks word guess if guess is correct it updates the display
                 updateLetterGuessList(letterGuess);                                  //updates the guess list
                 
                 break;
                 
             case 2:
                 System.out.print(selectedOptions.get("Buy a vowel"));
+                purchaseVowel();
+                checkForLetterReEntry();
+                checkLetterGuess();
+                updateLetterGuessList(letterGuess);
                 break;
             case 3:
                 System.out.print(selectedOptions.get("Solve the Puzzle"));
