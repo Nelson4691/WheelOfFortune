@@ -130,8 +130,8 @@ private static String currentWordWithoutSpace="";                       //Used t
         gameOptions.add("2.Buy a vowel");
         gameOptions.add("3.Solve the puzzle");
         gameOptions.add("4.Quit");
-        gameOptions.add("8.Toggle reveal");
-        gameOptions.add("9.Test letter input");
+        //gameOptions.add("8.Toggle reveal");
+        //gameOptions.add("9.Test letter input");
         gameOptions.add("Enter choice:");
     }
     private static void displayGameOptions(){
@@ -357,9 +357,9 @@ private static String currentWordWithoutSpace="";                       //Used t
                 System.exit(0);
                 gameActive = false;
                 break;
-            case 8:
+          /*case 8:
                 
-                if(booleanToggleValue){                                  /* The if statement allows user to see the word if 8 is pressed.*/
+                if(booleanToggleValue){                                  // The if statement allows user to see the word if 8 is pressed.
                    temporaryCurrentWordHolder = currentpuzzleDisplayed;  // putes your guesses in temporary holder 
                    currentpuzzleDisplayed = currentWord;                 // makes the puzzle displayed equal to the actual word guess. So user can see the full word
                    booleanToggleValue = false;                           // makes the value false so that next time user presses 8 the else if statment runs
@@ -370,8 +370,9 @@ private static String currentWordWithoutSpace="";                       //Used t
                 
                 }
             break;
+            */
             
-            case 9:
+            /*case 9:
                 System.out.println("Please guess a letter from A-Z");
                 letterGuess  =(userInput.next());
       
@@ -381,6 +382,7 @@ private static String currentWordWithoutSpace="";                       //Used t
                 }
                 System.out.println("You Entered " + letterGuess);
                 break;
+            */
       
       
       }
