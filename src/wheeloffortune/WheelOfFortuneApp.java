@@ -35,10 +35,11 @@ private static String temporaryCurrentWordHolder;  //Used to temporary hold word
 private static String currentWedge;                //Will be used to include the wedges 
 private static int currentPlayerScore = 0;         //Used to keep track of player score
 private static List <String> letterGuessedList = new ArrayList<>();     //Keeps track of all the letter guessed
-private final static List <String> vowelList = new ArrayList<>();
-private static String test = "A";
-private static boolean vowelAcceptance = false;                   // used to check if vowel is acceptable (starts at false to assure user can guess vowel
-private static List<String> PlayerWordGuess;
+private final static List <String> vowelList = new ArrayList<>();       //Stores the vowel list
+private static String test = "A";                                   
+private static boolean vowelAcceptance = false;                         // used to check if vowel is acceptable (starts at false to assure user can guess vowel
+private static String PlayerWordGuess;
+private static String currentWordWithoutSpace="";                       //Used to store selected puzzlewordwithoutvocab
 
   public static void main(String[] args) {
       //created two methods which add the game options which are included in an
@@ -49,8 +50,9 @@ private static List<String> PlayerWordGuess;
       getVocabWord();   //gets a vocab word from the vocab List
       addSelectedGameOptions();
       addVowels();
-      System.out.println(checkForVowels(test));
+          
       /*Test Code
+      //System.out.println(checkForVowels(test));
       //System.out.println(wedgeOptions.size()); //Checks for 
       //System.out.println(gameOptions.size());
       //System.out.println(currentWord.length());
@@ -297,22 +299,35 @@ private static List<String> PlayerWordGuess;
              vowelAcceptance = false;
         }
     }
-    private static void guessWord(){
-        PlayerWordGuess = new ArrayList<>(currentWord.length());    //Why can variable be fully instantiated here
-       int playerCorrectWordGuessCount = 0;
-        for(int i =0; i < currentWord.length(); i++){
-             System.out.println("Please enter letter");
-             PlayerWordGuess.add(userInput.next().toUpperCase());
-             
-        }
-        for(int i = 0; i < currentWord.length(); i++){
-            if(PlayerWordGuess.get(i).charAt(0) == currentWord.charAt(i)){
-                playerCorrectWordGuessCount = playerCorrectWordGuessCount +1;
+    private static void createWordWithoutSpacing(){
+        //currrently testing for word space remover
+        currentWordWithoutSpace="";
+        for (int i = 0; i< currentWord.length(); i++){
+            if(Character.isLetter(currentWord.charAt(i))){
+                currentWordWithoutSpace = currentWordWithoutSpace + currentWord.charAt(i);
             }
         }
-        if(playerCorrectWordGuessCount == currentWord.length()){
-           System.out.print("You have won the game congrats");
-           System.out.print("Your Scored :" +currentPlayerScore);
+    }
+    private static void guessWord(){
+        createWordWithoutSpacing();
+        PlayerWordGuess = new String();    //Why can't variable be fully instantiated here
+        //prompts user the correct amount of guesses
+        for(int i =0; i < currentWordWithoutSpace.length(); i++){                                   //Repeats as many times as the variable length
+             System.out.println("Please enter letter");
+             PlayerWordGuess = PlayerWordGuess +(userInput.next().toUpperCase());                   // adds player guessed letter to playeroverall word guess
+             if(currentWordWithoutSpace.charAt(i) != PlayerWordGuess.charAt(i)){                    // verifies if users letter input is equal to the word
+                                                                                                    //if false player loses game and ends
+                System.out.println("You have lost the game. Your really not IST material");        
+                System.out.println("Your Scored :" +currentPlayerScore);
+                System.exit(0);         
+        }     
+            //
+            if(PlayerWordGuess.equals(currentWordWithoutSpace)){            
+                
+                System.out.println("You have won the game congrats");
+                System.out.println("Your Scored :" +currentPlayerScore);
+                System.exit(0);
+            }
         }
     }
     
